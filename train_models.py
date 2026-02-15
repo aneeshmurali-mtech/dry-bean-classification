@@ -90,8 +90,6 @@ def save_model(model, filename):
 # -----------------------------------------
 # MODEL 1: LOGISTIC REGRESSION
 # -----------------------------------------
-# Some sklearn installs (older/newer) may not accept `multi_class` here;
-# omit it and specify a solver that supports multinomial behavior if needed.
 lr = LogisticRegression(max_iter=3000, solver="lbfgs")
 lr.fit(X_train_scaled, y_train)
 evaluate(lr, X_test_scaled, y_test, "Logistic Regression")
@@ -146,7 +144,13 @@ xgb_model.fit(X_train, y_train)
 evaluate(xgb_model, X_test, y_test, "XGBoost")
 save_model(xgb_model, "xgboost.pkl")
 
-# Save label encoder for inference mapping
+# -----------------------------------------
+# SAVE ENCODER + SCALER + FEATURE NAMES
+# -----------------------------------------
 save_model(le, "label_encoder.pkl")
+save_model(scaler, "scaler.pkl")
+
+# Save feature names for Streamlit validation
+save_model(list(X.columns), "feature_names.pkl")
 
 print("\nAll models trained and saved successfully!")

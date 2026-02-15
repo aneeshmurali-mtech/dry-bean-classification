@@ -113,6 +113,10 @@ for name, path in model_paths.items():
 with open("model/label_encoder.pkl", "rb") as f:
     label_encoder = pickle.load(f)
 
+# Load Scaler (for LR & KNN)
+with open("model/scaler.pkl", "rb") as f:
+    scaler = pickle.load(f)
+
 # ---------------------------------------------------------
 # File Upload
 # ---------------------------------------------------------
@@ -121,6 +125,15 @@ uploaded_file = st.file_uploader("Upload CSV file", type=["csv"])
 
 if uploaded_file is not None:
     test_df = pd.read_csv(uploaded_file)
+
+    # Fix common column name issues
+    test_df.columns = test_df.columns.str.strip()
+    rename_map = {
+        "AspectRation": "AspectRatio",
+        "roundness": "Roundness"
+    }
+    test_df = test_df.rename(columns=rename_map)
+
     st.write("### Preview of uploaded data:")
     st.dataframe(test_df.head())
 
@@ -138,9 +151,17 @@ if uploaded_file is not None:
         model = models[selected_model_name]
 
         # ---------------------------------------------------------
+        # Apply scaling for LR & KNN
+        # ---------------------------------------------------------
+        if selected_model_name in ["Logistic Regression", "KNN"]:
+            X_test_input = scaler.transform(X_test)
+        else:
+            X_test_input = X_test
+
+        # ---------------------------------------------------------
         # Predictions
         # ---------------------------------------------------------
-        y_pred = model.predict(X_test)
+        y_pred = model.predict(X_test_input)
 
         # ---------------------------------------------------------
         # Metrics
@@ -154,7 +175,7 @@ if uploaded_file is not None:
         mcc = matthews_corrcoef(y_test, y_pred)
 
         if hasattr(model, "predict_proba"):
-            y_prob = model.predict_proba(X_test)
+            y_prob = model.predict_proba(X_test_input)
             auc = roc_auc_score(y_test, y_prob, multi_class="ovr")
         else:
             auc = np.nan
