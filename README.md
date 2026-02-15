@@ -69,9 +69,9 @@ Each model was evaluated using the following metrics:
 
 | ML Model | Accuracy | AUC | Precision | Recall | F1 Score | MCC |
 |---------|----------|------|-----------|--------|----------|------|
-| Logistic Regression |  |  |  |  |  |  |
-| Decision Tree |  |  |  |  |  |  |
-| KNN |  |  |  |  |  |  |
+| Logistic Regression | 0.9236 | 0.9948 | 0.9379 | 0.9350 | 0.9362 | 0.9077 |
+| Decision Tree | 0.8927 | 0.9447 | 0.9100 | 0.9084 | 0.9091 | 0.8703 |
+| KNN | 0.9186 | 0.9870 | 0.9339 | 0.9296 | 0.9315 | 0.9016 |
 | Naive Bayes |  |  |  |  |  |  |
 | Random Forest |  |  |  |  |  |  |
 | XGBoost |  |  |  |  |  |  |
