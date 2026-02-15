@@ -90,7 +90,9 @@ def save_model(model, filename):
 # -----------------------------------------
 # MODEL 1: LOGISTIC REGRESSION
 # -----------------------------------------
-lr = LogisticRegression(max_iter=3000, multi_class="multinomial")
+# Some sklearn installs (older/newer) may not accept `multi_class` here;
+# omit it and specify a solver that supports multinomial behavior if needed.
+lr = LogisticRegression(max_iter=3000, solver="lbfgs")
 lr.fit(X_train_scaled, y_train)
 evaluate(lr, X_test_scaled, y_test, "Logistic Regression")
 save_model(lr, "logistic_regression.pkl")
