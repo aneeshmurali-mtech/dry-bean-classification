@@ -6,7 +6,7 @@ import os
 from ucimlrepo import fetch_ucirepo
 
 from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import StandardScaler, LabelEncoder
 from sklearn.metrics import (
     accuracy_score, precision_score, recall_score,
     f1_score, matthews_corrcoef, roc_auc_score
@@ -32,11 +32,16 @@ print("Dataset loaded successfully!")
 print("Shape:", X.shape)
 print("Classes:", y.unique())
 
+# Encode string class labels to integers for XGBoost (and consistency)
+le = LabelEncoder()
+y_encoded = le.fit_transform(y)
+print("Label classes (encoded):", list(enumerate(le.classes_)))
+
 # -----------------------------------------
 # TRAIN-TEST SPLIT
 # -----------------------------------------
 X_train, X_test, y_train, y_test = train_test_split(
-    X, y, test_size=0.25, random_state=42, stratify=y
+    X, y_encoded, test_size=0.25, random_state=42, stratify=y_encoded
 )
 
 # Scaling for models that need it
@@ -132,11 +137,14 @@ xgb_model = xgb.XGBClassifier(
     subsample=0.8,
     colsample_bytree=0.8,
     objective="multi:softprob",
-    num_class=len(y.unique()),
+    num_class=len(le.classes_),
     eval_metric="mlogloss"
 )
 xgb_model.fit(X_train, y_train)
 evaluate(xgb_model, X_test, y_test, "XGBoost")
 save_model(xgb_model, "xgboost.pkl")
+
+# Save label encoder for inference mapping
+save_model(le, "label_encoder.pkl")
 
 print("\nAll models trained and saved successfully!")
