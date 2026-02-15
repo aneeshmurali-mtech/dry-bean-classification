@@ -31,6 +31,12 @@ for name, path in model_paths.items():
         models[name] = pickle.load(f)
 
 # -----------------------------
+# Load Label Encoder
+# -----------------------------
+with open("model/label_encoder.pkl", "rb") as f:
+    label_encoder = pickle.load(f)
+
+# -----------------------------
 # Dataset Upload
 # -----------------------------
 st.subheader("Upload Test Dataset (CSV Only)")
@@ -45,7 +51,9 @@ if uploaded_file is not None:
         st.error("Uploaded CSV must contain 'Class' column.")
     else:
         X_test = test_df.drop("Class", axis=1)
-        y_test = test_df["Class"]
+
+        # Convert string labels → numeric labels using saved encoder
+        y_test = label_encoder.transform(test_df["Class"])
 
         # -----------------------------
         # Model Selection
@@ -97,5 +105,5 @@ if uploaded_file is not None:
         # Classification Report
         # -----------------------------
         st.subheader("Classification Report")
-        report = classification_report(y_test, y_pred)
+        report = classification_report(y_test, y_pred, target_names=label_encoder.classes_)
         st.text(report)
