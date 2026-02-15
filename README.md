@@ -13,7 +13,7 @@ This project includes:
 
 ---
 
-## b. Dataset Description
+## b. Dataset Description 
 
 **Dataset:** Dry Bean Dataset  
 **Source:** UCI Machine Learning Repository  
@@ -76,3 +76,13 @@ Each model was evaluated using the following metrics:
 | Random Forest | 0.9198 | 0.9925 | 0.9341 | 0.9308 | 0.9324 | 0.9030  |
 | XGBoost | 0.9236 | 0.9955 | 0.9378 | 0.9352 | 0.9365 | 0.9076 |
 
+## d. Observations on Model Performance 
+
+| ML Model            | Observation                                      |
+|---------------------|--------------------------------------------------|
+| Logistic Regression | Strong and balanced performer with high accuracy.|
+| Decision Tree       | Good results but less stable than other models.  |
+| KNN                 | Reliable model with consistently strong metrics. |
+| Naive Bayes         | Weakest model with noticeably lower performance. |
+| Random Forest       | High accuracy and very stable across all scores. |
+| XGBoost             | Best overall performer with top AUC and balance. |
