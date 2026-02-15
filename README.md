@@ -72,8 +72,7 @@ Each model was evaluated using the following metrics:
 | Logistic Regression | 0.9236 | 0.9948 | 0.9379 | 0.9350 | 0.9362 | 0.9077 |
 | Decision Tree | 0.8927 | 0.9447 | 0.9100 | 0.9084 | 0.9091 | 0.8703 |
 | KNN | 0.9186 | 0.9870 | 0.9339 | 0.9296 | 0.9315 | 0.9016 |
-| Naive Bayes |  |  |  |  |  |  |
-| Random Forest |  |  |  |  |  |  |
-| XGBoost |  |  |  |  |  |  |
+| Naive Bayes | 0.7664 | 0.9677 | 0.7774 | 0.7732 | 0.7711 | 0.7187 |
+| Random Forest | 0.9198 | 0.9925 | 0.9341 | 0.9308 | 0.9324 | 0.9030  |
+| XGBoost | 0.9236 | 0.9955 | 0.9378 | 0.9352 | 0.9365 | 0.9076 |
 
-*******TODO =========*(Fill these values after running `train_models.py`.)*
